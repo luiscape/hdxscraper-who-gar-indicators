@@ -6,6 +6,10 @@ library(RCurl)
 library(rjson)
 library(countrycode)
 
+# Helper functions.
+source('tool/code/write_tables.R')
+source('tool/code/sw_status.R')
+
 # Getting the download link from CKAN
 getResourceURL <- function(id = NULL) {
   cat('Querying CKAN for the CSV url | ')
@@ -22,10 +26,10 @@ getResourceURL <- function(id = NULL) {
 # Downloading file and processing the 3 tables.
 downloadCSVandTransform <- function() {
   # Download file
-  download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), 'data/data.csv', method = 'wget')
+  download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), 'tool/data/source/data.csv', method = 'wget')
   
   # Loading into memory
-  whoData <- read.csv('source/data/data.csv')
+  whoData <- read.csv('data/source/data.csv')
   
   
   # The current dataset contains 36 indicators. 
@@ -34,10 +38,10 @@ downloadCSVandTransform <- function() {
   # 2. Cumulative number of confirmed, probable and suspected Ebola cases
   
   # Schema for indicator: 
-  # - indID
-  # - name
-  # - units
-  indicator <- read.csv('source/data/indicator.csv')
+  # - indID: ok
+  # - name: ok
+  # - units: ok
+  indicator <- read.csv('data/source/indicator.csv')
   
   # Schema for value: 
   # - value: ok
@@ -45,8 +49,8 @@ downloadCSVandTransform <- function() {
   # - region: ok
   # - indID: ok
   # - dsID: ok
-  # - source: 
-  # - is_number: 
+  # - source: ok
+  # - is_number: ok 
   value <- whoData[whoData$Indicator == 'Cumulative number of confirmed, probable and suspected Ebola deaths' | whoData$Indicator == 'Cumulative number of confirmed, probable and suspected Ebola cases', ]
   
   names(value) <- c('name', 'region', 'period', 'value')
@@ -71,6 +75,9 @@ downloadCSVandTransform <- function() {
   # Adding source
   value$source <- as.character(dataset$name[1])
   
+  # Adding validator
+  value$is_number <- 1
+  
   # Schema for dataset: 
   # - dsID
   # - last_updated
@@ -85,11 +92,27 @@ downloadCSVandTransform <- function() {
   write.csv(indicator, 'data/indicator.csv', row.names = F)
   write.csv(dataset, 'data/dataset.csv', row.names = F)
   write.csv(value, 'data/value.csv', row.names = F)
+  
+  # Storing output.
+  writeTables(indicator, "indicator", "scraperwiki")
+  writeTables(dataset, "dataset", "scraperwiki")
+  writeTables(value, "value", "scraperwiki")
+  
 }
 
 
 runScraper <- function() {
-  downloadCSVandTransform()  # downloading and preparing the tables
+  downloadCSVandTransform()  # downloading, preparing, and storing output
 }
 
-
+# Changing the status of SW.
+tryCatch(runScraper(),
+         error = function(e) {
+           cat('Error detected ... sending notification.')
+           system('mail -s "WHO GAR failed." luiscape@gmail.com')
+           changeSwStatus(type = "error", message = "Scraper failed.")
+{ stop("!!") }
+         }
+)
+# If success:
+changeSwStatus(type = 'ok')
