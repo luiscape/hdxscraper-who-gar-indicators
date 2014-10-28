@@ -25,11 +25,9 @@ getResourceURL <- function(id = NULL) {
 
 # Downloading file and processing the 3 tables.
 downloadCSVandTransform <- function() {
-  cat('Downloading file | ')
   # Download file
-  download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), 'tool/data/source/data.csv', method = 'wget', quiet = T)
-  
-  cat('Done!\n')
+  download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), 'tool/data/source/data.csv', quiet = T)
+  cat('Downloading file | Done!\n')
   
   # Loading into memory
   cat('Loading data into memory | ')
