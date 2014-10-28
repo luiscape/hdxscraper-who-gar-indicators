@@ -6,9 +6,15 @@ library(RCurl)
 library(rjson)
 library(countrycode)
 
+# Helper function for running on ScraperWiki
+onSw <- function(a = F, d = '') {
+  if(a == T) return(d)
+  else return('')
+}
+
 # Helper functions.
-source('tool/code/write_tables.R')
-source('tool/code/sw_status.R')
+source(paste0(onSw(), 'code/write_tables.R'))
+source(paste0(onSw(), 'code/sw_status.R'))
 
 # Getting the download link from CKAN
 getResourceURL <- function(id = NULL) {
@@ -26,12 +32,13 @@ getResourceURL <- function(id = NULL) {
 # Downloading file and processing the 3 tables.
 downloadCSVandTransform <- function() {
   # Download file
-  download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), 'tool/data/source/data.csv', method = 'wget', quiet = T)
+  destination = paste0(onSw(), 'data/source/data.csv')
+  download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), destination, method = 'wget', quiet = T)
   cat('Downloading file | Done!\n')
   
   # Loading into memory
   cat('Loading data into memory | ')
-  whoData <- suppressWarnings(read.csv('tool/data/source/data.csv'))
+  whoData <- suppressWarnings(read.csv(paste0(onSw(), 'data/source/data.csv')))
   cat('Done!\n')
   
   
@@ -45,8 +52,8 @@ downloadCSVandTransform <- function() {
   # - indID: ok
   # - name: ok
   # - units: ok
-  indicator <- suppressWarnings(read.csv('tool/data/source/indicator.csv'))
-  dataset <- suppressWarnings(read.csv('source/data/dataset.csv'))
+  indicator <- suppressWarnings(read.csv(paste0(onSw(), 'data/source/indicator.csv')))
+  dataset <- suppressWarnings(read.csv(paste0(onSw(), 'data/source/dataset.csv')))
   
   # Schema for value: 
   # - value: ok
@@ -96,9 +103,9 @@ downloadCSVandTransform <- function() {
   
   cat('Writing output (CSV) | ')
   ### Writing CSVs ###
-  write.csv(indicator, 'tool/data/indicator.csv', row.names = F)
-  write.csv(dataset, 'tool/data/dataset.csv', row.names = F)
-  write.csv(value, 'tool/data/value.csv', row.names = F)
+  write.csv(indicator, paste0(onSw(), 'data/indicator.csv'), row.names = F)
+  write.csv(dataset, paste0(onSw(), 'data/dataset.csv'), row.names = F)
+  write.csv(value, paste0(onSw(), 'data/value.csv'), row.names = F)
   cat('Done!\n')
   
   cat('Writing output (SQLite) | ')
@@ -115,16 +122,15 @@ runScraper <- function() {
   downloadCSVandTransform()  # downloading, preparing, and storing output
 }
 
-runScraper()
 
 # Changing the status of SW.
-# tryCatch(runScraper(),
-#          error = function(e) {
-#            cat('Error detected ... sending notification.')
-#            system('mail -s "WHO GAR failed." luiscape@gmail.com')
-#            changeSwStatus(type = "error", message = "Scraper failed.")
-# { stop("!!") }
-#          }
-# )
+tryCatch(runScraper(),
+         error = function(e) {
+           cat('Error detected ... sending notification.')
+           system('mail -s "WHO GAR failed." luiscape@gmail.com')
+           changeSwStatus(type = "error", message = "Scraper failed.")
+{ stop("!!") }
+         }
+)
 # If success:
 changeSwStatus(type = 'ok')
