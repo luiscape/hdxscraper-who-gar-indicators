@@ -127,7 +127,7 @@ runScraper <- function() {
 tryCatch(runScraper(),
          error = function(e) {
            cat('Error detected ... sending notification.')
-           system('mail -s "WHO GAR failed." luiscape@gmail.com')
+           system('mail -s "WHO GAR failed." luiscape@gmail.com, takavarasha@un.org')
            changeSwStatus(type = "error", message = "Scraper failed.")
 { stop("!!") }
          }
