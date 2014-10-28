@@ -81,9 +81,6 @@ downloadCSVandTransform <- function() {
   value <- merge(value, indicator)
   value$units <- NULL
   
-  # Making period a Date
-  value$period <- as.Date(value$period)
-  
   # Adding source
   value$source <- as.character(dataset$name[1])
   
@@ -95,7 +92,7 @@ downloadCSVandTransform <- function() {
   # - last_updated
   # - last_scraped
   # - name
-  dataset$last_updated <- as.character(max(value$period))
+  dataset$last_updated <- as.character(max(as.Date(value$period)))
   dataset$last_scraped <- as.character(Sys.Date())
   
   cat('Done!\n')
