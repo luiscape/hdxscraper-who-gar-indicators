@@ -25,17 +25,23 @@ getResourceURL <- function(id = NULL) {
 
 # Downloading file and processing the 3 tables.
 downloadCSVandTransform <- function() {
+  cat('Downloading file | ')
   # Download file
-  download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), 'tool/data/source/data.csv', method = 'wget')
+  download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), 'tool/data/source/data.csv', method = 'wget', quiet = T)
+  
+  cat('Done!\n')
   
   # Loading into memory
+  cat('Loading data into memory | ')
   whoData <- suppressWarnings(read.csv('tool/data/source/data.csv'))
+  cat('Done!\n')
   
   
   # The current dataset contains 36 indicators. 
   # Out of those indicators, we will be extracting only 2: 
   # 1. Cumulative number of confirmed, probable and suspected Ebola deaths
   # 2. Cumulative number of confirmed, probable and suspected Ebola cases
+  cat('Building tables | ')
   
   # Schema for indicator: 
   # - indID: ok
@@ -87,16 +93,22 @@ downloadCSVandTransform <- function() {
   dataset$last_updated <- as.character(max(value$period))
   dataset$last_scraped <- as.character(Sys.Date())
   
+  cat('Done!\n')
   
+  
+  cat('Writing output (CSV) | ')
   ### Writing CSVs ###
   write.csv(indicator, 'tool/data/indicator.csv', row.names = F)
   write.csv(dataset, 'tool/data/dataset.csv', row.names = F)
   write.csv(value, 'tool/data/value.csv', row.names = F)
+  cat('Done!\n')
   
+  cat('Writing output (SQLite) | ')
   # Storing output.
   writeTables(indicator, "indicator", "scraperwiki")
   writeTables(dataset, "dataset", "scraperwiki")
   writeTables(value, "value", "scraperwiki")
+  cat('Done!\n')
   
 }
 
