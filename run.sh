@@ -1,5 +1,5 @@
 # Running the main script
-Rscript tool/code/scraper.R
+~/R/bin/Rscript tool/code/scraper.R
 
 # Navigate and make ZIP package
 cd tool/data

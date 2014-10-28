@@ -29,7 +29,7 @@ downloadCSVandTransform <- function() {
   download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), 'tool/data/source/data.csv', method = 'wget')
   
   # Loading into memory
-  whoData <- read.csv('tool/data/source/data.csv')
+  whoData <- suppressWarnings(read.csv('tool/data/source/data.csv'))
   
   
   # The current dataset contains 36 indicators. 
@@ -41,7 +41,7 @@ downloadCSVandTransform <- function() {
   # - indID: ok
   # - name: ok
   # - units: ok
-  indicator <- read.csv('tool/data/source/indicator.csv')
+  indicator <- suppressWarnings(read.csv('tool/data/source/indicator.csv'))
   
   # Schema for value: 
   # - value: ok
@@ -83,15 +83,15 @@ downloadCSVandTransform <- function() {
   # - last_updated
   # - last_scraped
   # - name
-  dataset <- read.csv('source/data/dataset.csv')
+  dataset <- suppressWarnings(read.csv('source/data/dataset.csv'))
   dataset$last_updated <- as.character(max(value$period))
   dataset$last_scraped <- as.character(Sys.Date())
   
   
   ### Writing CSVs ###
-  write.csv(indicator, 'data/indicator.csv', row.names = F)
-  write.csv(dataset, 'data/dataset.csv', row.names = F)
-  write.csv(value, 'data/value.csv', row.names = F)
+  write.csv(indicator, 'tool/data/indicator.csv', row.names = F)
+  write.csv(dataset, 'tool/data/dataset.csv', row.names = F)
+  write.csv(value, 'tool/data/value.csv', row.names = F)
   
   # Storing output.
   writeTables(indicator, "indicator", "scraperwiki")
