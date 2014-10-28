@@ -87,6 +87,9 @@ downloadCSVandTransform <- function() {
   # Adding validator
   value$is_number <- 1
   
+  # Removing name
+  value$name <- NULL
+  
   # Schema for dataset: 
   # - dsID
   # - last_updated
