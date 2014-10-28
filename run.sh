@@ -3,5 +3,5 @@
 
 # Navigate and make ZIP package
 cd tool/data
-zip output *.csv
-mv output.zip ../http/output.zip
+zip who-gar-raw *.csv
+mv who-gar-raw.zip ../http/who-gar-raw.zip
