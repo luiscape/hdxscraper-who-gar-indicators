@@ -7,7 +7,7 @@ library(rjson)
 library(countrycode)
 
 # Helper function for running on ScraperWiki
-onSw <- function(a = F, d = '') {
+onSw <- function(a = T, d = 'tool/') {
   if(a == T) return(d)
   else return('')
 }
