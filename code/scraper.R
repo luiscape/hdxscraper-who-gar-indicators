@@ -46,6 +46,7 @@ downloadCSVandTransform <- function() {
   # - name: ok
   # - units: ok
   indicator <- suppressWarnings(read.csv('tool/data/source/indicator.csv'))
+  dataset <- suppressWarnings(read.csv('source/data/dataset.csv'))
   
   # Schema for value: 
   # - value: ok
@@ -87,7 +88,6 @@ downloadCSVandTransform <- function() {
   # - last_updated
   # - last_scraped
   # - name
-  dataset <- suppressWarnings(read.csv('source/data/dataset.csv'))
   dataset$last_updated <- as.character(max(value$period))
   dataset$last_scraped <- as.character(Sys.Date())
   
