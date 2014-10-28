@@ -100,6 +100,24 @@ downloadCSVandTransform <- function() {
   
   cat('Done!\n')
   
+  ############################################
+  #### Changing the order of the columns #####
+  ############################################
+  dataset <- data.frame(dsID = dataset$dsID, 
+                        last_updated = dataset$last_updated,
+                        last_scraped = dataset$last_scraped,
+                        name = dataset$name)
+  indicator <- data.frame(indID = indicator$indID,
+                          name = indicator$name,
+                          units = indicator$units)
+  value <- data.frame(dsID = value$dsID,
+                      region = value$region,
+                      indID = value$indID,
+                      period = value$period,
+                      value = value$value,
+                      is_number = value$is_number,
+                      source = value$source)
+  
   
   cat('Writing output (CSV) | ')
   ### Writing CSVs ###
