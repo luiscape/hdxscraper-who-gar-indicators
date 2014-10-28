@@ -29,7 +29,7 @@ downloadCSVandTransform <- function() {
   download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), 'tool/data/source/data.csv', method = 'wget')
   
   # Loading into memory
-  whoData <- read.csv('data/source/data.csv')
+  whoData <- read.csv('tool/data/source/data.csv')
   
   
   # The current dataset contains 36 indicators. 
@@ -41,7 +41,7 @@ downloadCSVandTransform <- function() {
   # - indID: ok
   # - name: ok
   # - units: ok
-  indicator <- read.csv('data/source/indicator.csv')
+  indicator <- read.csv('tool/data/source/indicator.csv')
   
   # Schema for value: 
   # - value: ok
