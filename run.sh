@@ -3,4 +3,5 @@
 
 # Navigate and make ZIP package
 cd tool/data
-zip ../http/output *.csv
+zip output *.csv
+mv output.zip ../http/ouput.zip
