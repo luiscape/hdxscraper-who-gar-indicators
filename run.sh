@@ -17,3 +17,7 @@ echo 'dsID,region,indID,period,value,is_number,source' | cat - value.csv > temp 
 # Navigate and make ZIP package
 zip output *.csv
 mv output.zip ../http/output.zip
+
+# When the output is generated,
+# update the new dataset on HDX.
+# python tool/code/updateResource.py
