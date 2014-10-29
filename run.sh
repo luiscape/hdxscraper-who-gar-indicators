@@ -14,13 +14,14 @@ echo 'dsID,last_updated,last_scraped,name' | cat - dataset.csv > temp && mv temp
 echo 'indID,name,units' | cat - indicator.csv > temp && mv temp indicator.csv
 echo 'dsID,region,indID,period,value,is_number,source' | cat - value.csv > temp && mv temp value.csv
 
-# Navigate and make ZIP package
+# Making ZIP package
 zip output *.csv
 mv output.zip ../http/output.zip
 
 # When the output is generated,
 # update the new dataset on HDX.
-printf 'Updating the HDX resource.'
+printf 'Updating the HDX resource.\n'
+cd ~
 /bin/bash -c ". ~/venv/bin/activate; exec /bin/bash -i"
 python tool/code/updateResource.py
 exit
