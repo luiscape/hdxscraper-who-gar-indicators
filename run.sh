@@ -21,6 +21,6 @@ mv output.zip ../http/output.zip
 # When the output is generated,
 # update the new dataset on HDX.
 printf 'Updating the HDX resource.'
-source venv/bin/activate
+/bin/bash -c ". ~/venv/bin/activate; exec /bin/bash -i"
 python tool/code/updateResource.py
-deactivate
+exit
