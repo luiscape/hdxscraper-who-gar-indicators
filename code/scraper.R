@@ -7,6 +7,7 @@ library(rjson)
 library(countrycode)
 
 # Helper function for running on ScraperWiki
+# Change a = T if running locally.
 onSw <- function(a = T, d = 'tool/') {
   if(a == T) return(d)
   else return('')
@@ -122,9 +123,9 @@ downloadCSVandTransform <- function() {
   
   cat('Writing output (CSV) | ')
   ### Writing CSVs ###
-  write.table(indicator, paste0(onSw(), 'data/indicator.csv'), row.names = F, col.names = F)
-  write.table(dataset, paste0(onSw(), 'data/dataset.csv'), row.names = F, col.names = F)
-  write.table(value, paste0(onSw(), 'data/value.csv'), row.names = F, col.names = F)
+  write.table(indicator, paste0(onSw(), 'data/indicator.csv'), row.names = F, col.names = F, sep = ",")
+  write.table(dataset, paste0(onSw(), 'data/dataset.csv'), row.names = F, col.names = F, sep = ",")
+  write.table(value, paste0(onSw(), 'data/value.csv'), row.names = F, col.names = F, sep = ",")
   cat('Done!\n')
   
   # Storing output.
