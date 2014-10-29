@@ -1,6 +1,5 @@
 ## Simple script to update a resource in HDX / CKAN.
 
-
 import ckanapi as ckan
 
 def getOldResourceProperties(resource_id, key):
@@ -13,7 +12,7 @@ def getOldResourceProperties(resource_id, key):
 	try:
 		print('Updating resource.\n')
 		hdx.action.resource_update(id = resource_id,
-			url = 'coisaFeia')
+			url = 'https://ds-ec2.scraperwiki.com/bdiq9rh/jl6of3vhfzl38tg/http/output.zip')
 
 	except ckan.errors.ValidationError:
 		print 'You have missing parameters. Check the url and type are included.\n'
