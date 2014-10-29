@@ -1,3 +1,4 @@
 .Rhistory
 code/venv/*
 code/venv/**
+scraperwiki.sqlite

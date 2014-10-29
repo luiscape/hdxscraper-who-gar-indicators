@@ -1,38 +1,25 @@
 ## Simple script to update a resource in HDX / CKAN.
-## Designed to run on the staging version of HDX.
-# 6ca6ddbe-574e-4e4e-9d78-95ca1ceec08b
-
-# Resource update not working.
-# Try deleting a resource and then
-# creating a new one.
-
-import requests
-
-# Function to collect old properties
-def getOldResourceProperties(id):
-	url = 'https://test-data.hdx.rwlabs.org/api/action/resource_show?id=' + id
-	r = requests.get(url, auth=('dataproject', 'humdata'))
-	doc = r.json()
-	output = doc["result"]
-	return output
-
-# Function to define new properties
-def defineNewProperties(id, apiKey):
-	# First, collect old properties.
-	oldProperties = getOldResourceProperties(id = '53442451-a0e1-4a2d-a425-4173b85c769c')
-
-	# Then update only the desired ones.
-	url = 'https://test-data.hdx.rwlabs.org/api/action/resource_update?id=' + id
-	h = {'Authorization': apiKey}
-	r = requests.post(url, data=oldProperties, headers=h, auth=('dataproject', 'humdata'))
-
-	if r.status_code == 200:
-		print 'Success!\n'
-	else:
-		print 'Fail!\n'
-		print r.json()
-		print oldProperties
 
 
-# Calling the functions
-defineNewProperties('53442451-a0e1-4a2d-a425-4173b85c769c', 'a6863277-f35e-4f50-af85-78a2d9ebcdd3')
+import ckanapi as ckan
+
+def getOldResourceProperties(resource_id, key):
+
+	# Basic definitions of the remote CKAN instance.
+	hdx = ckan.RemoteCKAN('https://data.hdx.rwlabs.org/',
+		apikey=key,
+    	user_agent='ckanapiexample/1.0')
+
+	try:
+		print('Updating resource.\n')
+		hdx.action.resource_update(id = resource_id,
+			url = 'coisaFeia')
+
+	except ckan.errors.ValidationError:
+		print 'You have missing parameters. Check the url and type are included.\n'
+
+	except ckan.errors.NotFound:
+		print 'Resource not found!\n'
+
+# Running the function
+getOldResourceProperties(resource_id = 'bb46ce84-717d-468f-9f5a-f44b90fb362c', key = 'your_api_key_here')
