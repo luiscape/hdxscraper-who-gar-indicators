@@ -31,6 +31,7 @@ getResourceURL <- function(id = NULL) {
 
 # Downloading file and processing the 3 tables.
 downloadCSVandTransform <- function() {
+  cat('-------------------------------------------\n')
   # Download file
   destination = paste0(onSw(), 'data/source/data.csv')
   download.file(getResourceURL('f48a3cf9-110e-4892-bedf-d4c1d725a7d1'), destination, method = 'wget', quiet = T)
@@ -121,17 +122,17 @@ downloadCSVandTransform <- function() {
   
   cat('Writing output (CSV) | ')
   ### Writing CSVs ###
-  write.csv(indicator, paste0(onSw(), 'data/indicator.csv'), row.names = F)
-  write.csv(dataset, paste0(onSw(), 'data/dataset.csv'), row.names = F)
-  write.csv(value, paste0(onSw(), 'data/value.csv'), row.names = F)
+  write.table(indicator, paste0(onSw(), 'data/indicator.csv'), row.names = F, col.names = F)
+  write.table(dataset, paste0(onSw(), 'data/dataset.csv'), row.names = F, col.names = F)
+  write.table(value, paste0(onSw(), 'data/value.csv'), row.names = F, col.names = F)
   cat('Done!\n')
   
-  cat('Writing output (SQLite) | ')
   # Storing output.
   writeTables(indicator, "indicator", "scraperwiki")
   writeTables(dataset, "dataset", "scraperwiki")
   writeTables(value, "value", "scraperwiki")
-  cat('Done!\n')
+  
+  cat('-------------------------------------------\n')
   
 }
 

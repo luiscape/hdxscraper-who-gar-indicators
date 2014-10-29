@@ -1,3 +1,3 @@
-"indID","name","units"
-"CHD.HTH.136","Cumulative number of confirmed, probable and suspected EDV cases","Cases"
-"CHD.HTH.137","Cumulative number of confirmed, probable and suspected EDV deaths","Cases"
+indID,name,units
+"CHD.HTH.136" "Cumulative number of confirmed, probable and suspected EDV cases" "Cases"
+"CHD.HTH.137" "Cumulative number of confirmed, probable and suspected EDV deaths" "Cases"
