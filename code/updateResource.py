@@ -1,6 +1,7 @@
 ## Simple script to update a resource in HDX / CKAN.
 
 import ckanapi as ckan
+import datetime as dt
 
 def getOldResourceProperties(resource_id, key):
 
@@ -11,8 +12,9 @@ def getOldResourceProperties(resource_id, key):
 
 	try:
 		print('Updating resource.\n')
+		current_time = datetime.datetime.now().time()
 		hdx.action.resource_update(id = resource_id,
-			url = 'http://ds-ec2.scraperwiki.com/bdiq9rh/jl6of3vhfzl38tg/http/output.zip')  # CPS doesn't like httpS
+			description = 'Updated at' + current_time)  # CPS doesn't like httpS
 
 	except ckan.errors.ValidationError:
 		print 'You have missing parameters. Check the url and type are included.\n'
