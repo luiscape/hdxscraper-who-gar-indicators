@@ -12,7 +12,7 @@ def getOldResourceProperties(resource_id, key):
 	try:
 		print('Updating resource.\n')
 		hdx.action.resource_update(id = resource_id,
-			url = 'https://ds-ec2.scraperwiki.com/bdiq9rh/jl6of3vhfzl38tg/http/output.zip')
+			url = 'http://ds-ec2.scraperwiki.com/bdiq9rh/jl6of3vhfzl38tg/http/output.zip')  # CPS doesn't like httpS
 
 	except ckan.errors.ValidationError:
 		print 'You have missing parameters. Check the url and type are included.\n'
