@@ -1,4 +1,4 @@
-## Simple script to update a resource in HDX / CKAN.
+## Simple script to update a resource in HDX / CKAN. 
 
 import ckanapi as ckan
 import datetime as dt
