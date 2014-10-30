@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Running the main script
 # and generating the 3 CSVs
 # as output.
@@ -20,8 +22,6 @@ mv output.zip ../http/output.zip
 
 # When the output is generated,
 # update the new dataset on HDX.
-cd ~
 printf 'Updating the HDX resource.\n'
-bash -c "source ~/venv/bin/activate; exec bash -i"
+source ~/venv/bin/activate
 python ~/tool/code/updateResource.py
-exit
