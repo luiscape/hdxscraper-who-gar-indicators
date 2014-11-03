@@ -93,6 +93,9 @@ downloadCSVandTransform <- function() {
   value$name <- NULL
   
   ## Calculating the total for the World ("WLD")
+  ## TODO: Create function that sums the latest per country
+  ## and per date.
+  
   total136 <- data.frame(
     indID = 'CHD.HTH.136',
     value = tapply(
@@ -125,6 +128,26 @@ downloadCSVandTransform <- function() {
     region = 'WLD'
   )
   
+  ## Nigeria and Senegal
+  sen = value[value$region == 'SEN', ]
+  nga = value[value$region == 'NGA', ]
+  
+  total136$value[total136$period == as.character(max(as.Date(total136$period)))] <- 
+    total136$value[total136$period == as.character(max(as.Date(total136$period)))] + 
+    sen$value[sen$period == as.character(max(as.Date(sen$period))) & 
+                sen$indID == 'CHD.HTH.136'] +
+    nga$value[nga$period == as.character(max(as.Date(nga$period))) & 
+                nga$indID == 'CHD.HTH.136']
+    
+  total137$value[total137$period == as.character(max(as.Date(total137$period)))] <- 
+    total137$value[total137$period == as.character(max(as.Date(total137$period)))] + 
+    sen$value[sen$period == as.character(max(as.Date(sen$period))) & 
+                sen$indID == 'CHD.HTH.137'] +
+    nga$value[nga$period == as.character(max(as.Date(nga$period))) & 
+                nga$indID == 'CHD.HTH.137']
+  
+  
+  ## Plot test
   value <- rbind(value, total136, total137)
   
   # Schema for dataset: 
