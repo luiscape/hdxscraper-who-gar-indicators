@@ -92,6 +92,41 @@ downloadCSVandTransform <- function() {
   # Removing name
   value$name <- NULL
   
+  ## Calculating the total for the World ("WLD")
+  total136 <- data.frame(
+    indID = 'CHD.HTH.136',
+    value = tapply(
+      value$value[value$indID == 'CHD.HTH.136'],
+      value$period[value$indID == 'CHD.HTH.136'],
+      sum),
+    period = row.names(tapply(
+      value$value[value$indID == 'CHD.HTH.136'],
+      value$period[value$indID == 'CHD.HTH.136'],
+      sum)),
+    dsID = 'who-gar',
+    source = as.character(dataset$name[1]),
+    is_number = 1,
+    region = 'WLD'
+    )
+  
+  total137 <- data.frame(
+    indID = 'CHD.HTH.137',
+    value = tapply(
+      value$value[value$indID == 'CHD.HTH.137'],
+      value$period[value$indID == 'CHD.HTH.137'],
+      sum),
+    period = row.names(tapply(
+      value$value[value$indID == 'CHD.HTH.137'],
+      value$period[value$indID == 'CHD.HTH.137'],
+      sum)),
+    dsID = 'who-gar',
+    source = as.character(dataset$name[1]),
+    is_number = 1,
+    region = 'WLD'
+  )
+  
+  value <- rbind(value, total136, total137)
+  
   # Schema for dataset: 
   # - dsID
   # - last_updated
